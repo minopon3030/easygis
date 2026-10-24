@@ -1,0 +1,485 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル公園1",
+    "種別": "公園",
+    "定員": null,
+    "開設年": 1984
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.365342,
+     43.076166
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル図書館1",
+    "種別": "図書館",
+    "定員": 90,
+    "開設年": 2015
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.420789,
+     43.101634
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル学校1",
+    "種別": "学校",
+    "定員": 849,
+    "開設年": 2008
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.312692,
+     43.096915
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル学校2",
+    "種別": "学校",
+    "定員": 600,
+    "開設年": 1987
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.295305,
+     43.020389
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル図書館2",
+    "種別": "図書館",
+    "定員": 84,
+    "開設年": 2008
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.298584,
+     43.129515
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル図書館3",
+    "種別": "図書館",
+    "定員": 101,
+    "開設年": 1992
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.367435,
+     43.038341
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル病院1",
+    "種別": "病院",
+    "定員": 326,
+    "開設年": 2009
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.417589,
+     43.130219
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル図書館4",
+    "種別": "図書館",
+    "定員": 82,
+    "開設年": 1961
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.287899,
+     43.063558
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル図書館5",
+    "種別": "図書館",
+    "定員": 50,
+    "開設年": 1963
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.308539,
+     43.088083
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル学校3",
+    "種別": "学校",
+    "定員": 387,
+    "開設年": 2006
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.347758,
+     43.028306
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル病院2",
+    "種別": "病院",
+    "定員": 115,
+    "開設年": 2002
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.346045,
+     43.085976
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル図書館6",
+    "種別": "図書館",
+    "定員": 87,
+    "開設年": 2015
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.367055,
+     43.135724
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル病院3",
+    "種別": "病院",
+    "定員": 209,
+    "開設年": 1985
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.429224,
+     43.097985
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル公園2",
+    "種別": "公園",
+    "定員": null,
+    "開設年": 2017
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.352812,
+     43.034521
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル病院4",
+    "種別": "病院",
+    "定員": 82,
+    "開設年": 1981
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.273365,
+     43.086471
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル病院5",
+    "種別": "病院",
+    "定員": 53,
+    "開設年": 1964
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.383255,
+     43.027065
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル学校4",
+    "種別": "学校",
+    "定員": 332,
+    "開設年": 2015
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.322869,
+     43.081699
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル図書館7",
+    "種別": "図書館",
+    "定員": 105,
+    "開設年": 1991
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.304278,
+     43.035877
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル公園3",
+    "種別": "公園",
+    "定員": null,
+    "開設年": 1975
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.395539,
+     43.1169
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル病院6",
+    "種別": "病院",
+    "定員": 98,
+    "開設年": 1966
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.375437,
+     43.062516
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル公園4",
+    "種別": "公園",
+    "定員": null,
+    "開設年": 1989
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.408214,
+     43.026501
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル学校5",
+    "種別": "学校",
+    "定員": 362,
+    "開設年": 1985
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.386514,
+     43.116071
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル学校6",
+    "種別": "学校",
+    "定員": 554,
+    "開設年": 1972
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.300433,
+     43.073834
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル公園5",
+    "種別": "公園",
+    "定員": null,
+    "開設年": 1971
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.314567,
+     43.049977
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル学校7",
+    "種別": "学校",
+    "定員": 753,
+    "開設年": 2011
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.407816,
+     43.086039
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル学校8",
+    "種別": "学校",
+    "定員": 853,
+    "開設年": 2013
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.272361,
+     43.031192
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル病院7",
+    "種別": "病院",
+    "定員": 135,
+    "開設年": 1986
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.347703,
+     43.04565
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル公園6",
+    "種別": "公園",
+    "定員": null,
+    "開設年": 2017
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.279382,
+     43.065477
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル公園7",
+    "種別": "公園",
+    "定員": null,
+    "開設年": 1976
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.418243,
+     43.114216
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "名称": "サンプル図書館8",
+    "種別": "図書館",
+    "定員": 74,
+    "開設年": 2004
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     141.423171,
+     43.139451
+    ]
+   }
+  }
+ ]
+}
