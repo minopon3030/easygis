@@ -9,6 +9,9 @@
     --text-muted: #666;
     --border: #dcdfe4;
     --accent: #2f6fdb;
+    --accent-ring: rgba(47, 111, 219, 0.25);
+    --control-border: #cfd4db;
+    --control-border-hover: #aab2bd;
     --danger: #c33;
 }
 
@@ -221,7 +224,7 @@ body.sidebar-collapsed #sidebar {
 .control-row {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-size: 12px;
 }
 
@@ -230,10 +233,68 @@ body.sidebar-collapsed #sidebar {
     color: var(--text-muted);
 }
 
+/* ---- フォーム部品 ---- */
+
+/* 選択リスト: ブラウザ標準の見た目を消し、角丸の枠と矢印アイコンにする */
 .control-row select {
     flex: 1;
     min-width: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 5px 28px 5px 10px;
+    border: 1px solid var(--control-border);
+    border-radius: 6px;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 8px center / 12px;
+    color: var(--text);
     font-size: 13px;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.control-row select:hover {
+    border-color: var(--control-border-hover);
+}
+
+.control-row select:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* 表示切替のチェックボックス: 角丸の四角に白いチェックマーク */
+.layer-title input[type="checkbox"] {
+    flex: 0 0 auto;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    border: 1.5px solid var(--control-border-hover);
+    border-radius: 4px;
+    background: #fff no-repeat center / 12px;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.layer-title input[type="checkbox"]:hover {
+    border-color: var(--accent);
+}
+
+.layer-title input[type="checkbox"]:checked {
+    border-color: var(--accent);
+    background-color: var(--accent);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-4.9' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.layer-title input[type="checkbox"]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+/* 非表示のレイヤは名前を薄くする */
+.layer-title:has(input:not(:checked)) .layer-name {
+    color: var(--text-muted);
 }
 
 /* ---- 凡例 ---- */
