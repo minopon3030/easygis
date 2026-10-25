@@ -29,8 +29,7 @@ body {
     background: var(--bg);
 }
 
-button,
-select {
+button {
     font: inherit;
 }
 
@@ -235,12 +234,18 @@ body.sidebar-collapsed #sidebar {
 
 /* ---- フォーム部品 ---- */
 
-/* 選択リスト: ブラウザ標準の見た目を消し、角丸の枠と矢印アイコンにする */
-.control-row select {
+/* 選択リスト（js/dropdown.js）: 角丸の枠と矢印アイコン */
+.dropdown {
+    position: relative;
     flex: 1;
     min-width: 0;
-    appearance: none;
-    -webkit-appearance: none;
+}
+
+.dropdown-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 5px 28px 5px 10px;
     border: 1px solid var(--control-border);
     border-radius: 6px;
@@ -248,18 +253,80 @@ body.sidebar-collapsed #sidebar {
     color: var(--text);
     font-size: 13px;
     line-height: 1.4;
+    text-align: left;
     cursor: pointer;
     transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.control-row select:hover {
+.dropdown-button:hover {
     border-color: var(--control-border-hover);
 }
 
-.control-row select:focus-visible {
+.dropdown-button:focus-visible,
+.dropdown-button[aria-expanded="true"] {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.dropdown-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* グラデーションの見本 */
+.dropdown-ramp {
+    flex: 0 0 56px;
+    height: 12px;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 4px;
+    border: 1px solid var(--control-border);
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-option {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border: none;
+    border-radius: 5px;
+    background: none;
+    color: var(--text);
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-option:hover,
+.dropdown-option:focus-visible {
+    outline: none;
+    background: #eef3fc;
+}
+
+.dropdown-option[aria-selected="true"] {
+    background: #e3ecfb;
+    font-weight: 600;
 }
 
 /* 表示切替のチェックボックス: 角丸の四角に白いチェックマーク */

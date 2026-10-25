@@ -49,6 +49,7 @@ js/main.js            起動。各部品を作ってつなぐ、ファイル追�
 js/store.js           アプリの状態（レイヤ一覧・スタイル設定）と変更通知
 js/mapView.js         状態を Leaflet の地図に反映
 js/sidebar.js         レイヤ一覧・色分け設定・凡例の UI
+js/dropdown.js        選択リストの部品（配色の見本表示付き）
 js/styling.js         スタイル設定 → 地物の色と凡例の中身を計算
 js/features.js        属性値の取り出し・判定などの小さな関数
 js/basemaps.js        背景地図の定義

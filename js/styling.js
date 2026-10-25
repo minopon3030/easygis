@@ -21,6 +21,15 @@ export const NUMERIC_PALETTES = [
 ];
 
 /**
+ * パレットの代表色（凡例や見本の表示用）
+ * @param {string} key パレット名
+ * @param {number} [count]
+ */
+export function paletteColors(key, count = 7) {
+    return chroma.scale(key).mode('lab').colors(count);
+}
+
+/**
  * @typedef {{ type: 'single', color: string }
  *   | { type: 'numeric', min: number, max: number, colors: string[], hasNoData: boolean }
  *   | { type: 'category', items: { value: string, color: string }[] }
@@ -112,7 +121,7 @@ function numericStyler(layer, info) {
             type: 'numeric',
             min,
             max,
-            colors: chroma.scale(palette).mode('lab').colors(7),
+            colors: paletteColors(palette),
             hasNoData,
         }),
     };

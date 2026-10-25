@@ -4,25 +4,27 @@
 
 import Sortable from 'sortablejs';
 import * as store from './store.js';
-import { buildStyler, NUMERIC_PALETTES, NO_DATA_COLOR, NO_DATA_LABEL } from './styling.js';
+import { buildStyler, paletteColors, NUMERIC_PALETTES, NO_DATA_COLOR, NO_DATA_LABEL } from './styling.js';
 import { formatNumber } from './features.js';
+import { createDropdown } from './dropdown.js';
 
 /** @typedef {import('./types.js').AppState} AppState */
 /** @typedef {import('./types.js').LayerState} LayerState */
 /** @typedef {import('./styling.js').Legend} Legend */
+/** @typedef {import('./dropdown.js').Dropdown} Dropdown */
 
 /**
  * @typedef {Object} Card
  * @property {HTMLElement} el
  * @property {LayerState|null} layer 最後に表示したレイヤ
  * @property {HTMLInputElement} visibleInput
- * @property {HTMLSelectElement} attributeSelect
+ * @property {Dropdown} labelDropdown
+ * @property {Dropdown} attributeDropdown
  * @property {HTMLElement} classifyRow
- * @property {HTMLSelectElement} classifySelect
+ * @property {Dropdown} classifyDropdown
  * @property {HTMLElement} paletteRow
- * @property {HTMLSelectElement} paletteSelect
+ * @property {Dropdown} paletteDropdown
  * @property {HTMLElement} legendEl
- * @property {HTMLSelectElement} labelSelect
  * @property {string} legendKey 凡例の構造（色以外）。変わったときだけ凡例を作り直す
  */
 
@@ -125,32 +127,39 @@ function createCard(layer, onZoom) {
     const controls = document.createElement('div');
     controls.className = 'layer-controls';
 
-    const labelSelect = selectBox([
-        { value: '', label: '表示しない' },
-        ...layer.attributes.map(a => ({ value: a, label: a })),
-    ]);
-    labelSelect.addEventListener('change', () => store.setStyle(id, { label: labelSelect.value }));
+    const attributeOptions = layer.attributes.map(a => ({ value: a, label: a }));
 
-    const attributeSelect = selectBox([
-        { value: '', label: '色分けなし（単色）' },
-        ...layer.attributes.map(a => ({ value: a, label: a })),
-    ]);
-    attributeSelect.addEventListener('change', () => store.setStyle(id, { attribute: attributeSelect.value }));
+    const labelDropdown = createDropdown(
+        [{ value: '', label: '表示しない' }, ...attributeOptions],
+        value => store.setStyle(id, { label: value }),
+    );
 
-    const classifySelect = selectBox([
-        { value: 'auto', label: '数値（グラデーション）' },
-        { value: 'category', label: 'カテゴリ（値ごとに色）' },
-    ]);
-    classifySelect.addEventListener('change', () => {
-        store.setStyle(id, { classify: classifySelect.value === 'category' ? 'category' : 'auto' });
-    });
+    const attributeDropdown = createDropdown(
+        [{ value: '', label: '色分けなし（単色）' }, ...attributeOptions],
+        value => store.setStyle(id, { attribute: value }),
+    );
 
-    const paletteSelect = selectBox(NUMERIC_PALETTES.map(p => ({ value: p.key, label: p.label })));
-    paletteSelect.addEventListener('change', () => store.setStyle(id, { palette: paletteSelect.value }));
+    const classifyDropdown = createDropdown(
+        [
+            { value: 'auto', label: '数値（グラデーション）' },
+            { value: 'category', label: 'カテゴリ（値ごとに色）' },
+        ],
+        value => store.setStyle(id, { classify: value === 'category' ? 'category' : 'auto' }),
+    );
 
-    const classifyRow = controlRow('値の扱い', classifySelect);
-    const paletteRow = controlRow('配色', paletteSelect);
-    controls.append(controlRow('ラベル', labelSelect), controlRow('色分け', attributeSelect), classifyRow, paletteRow);
+    const paletteDropdown = createDropdown(
+        NUMERIC_PALETTES.map(p => ({ value: p.key, label: p.label, colors: paletteColors(p.key) })),
+        value => store.setStyle(id, { palette: value }),
+    );
+
+    const classifyRow = controlRow('値の扱い', classifyDropdown.el);
+    const paletteRow = controlRow('配色', paletteDropdown.el);
+    controls.append(
+        controlRow('ラベル', labelDropdown.el),
+        controlRow('色分け', attributeDropdown.el),
+        classifyRow,
+        paletteRow,
+    );
 
     const legendEl = document.createElement('div');
     legendEl.className = 'legend';
@@ -158,9 +167,9 @@ function createCard(layer, onZoom) {
     el.append(header, controls, legendEl);
 
     return {
-        el, layer: null, visibleInput, attributeSelect,
-        classifyRow, classifySelect, paletteRow, paletteSelect,
-        legendEl, labelSelect, legendKey: '',
+        el, layer: null, visibleInput, labelDropdown, attributeDropdown,
+        classifyRow, classifyDropdown, paletteRow, paletteDropdown,
+        legendEl, legendKey: '',
     };
 }
 
@@ -172,10 +181,10 @@ function updateCard(card, layer) {
     const { style } = layer;
     card.layer = layer;
     card.visibleInput.checked = layer.visible;
-    card.attributeSelect.value = style.attribute;
-    card.classifySelect.value = style.classify === 'category' ? 'category' : 'auto';
-    card.paletteSelect.value = style.palette;
-    card.labelSelect.value = style.label;
+    card.labelDropdown.setValue(style.label);
+    card.attributeDropdown.setValue(style.attribute);
+    card.classifyDropdown.setValue(style.classify === 'category' ? 'category' : 'auto');
+    card.paletteDropdown.setValue(style.palette);
 
     const styler = buildStyler(layer);
     card.classifyRow.hidden = !styler.numericAvailable;
@@ -339,21 +348,13 @@ function iconButton(text, title, onClick) {
     return btn;
 }
 
-/** @param {{ value: string, label: string }[]} options */
-function selectBox(options) {
-    const select = document.createElement('select');
-    for (const o of options) {
-        select.add(new Option(o.label, o.value));
-    }
-    return select;
-}
-
 /**
  * @param {string} labelText
  * @param {HTMLElement} control
  */
 function controlRow(labelText, control) {
-    const row = document.createElement('label');
+    // label で囲むと、一覧のクリックが開閉ボタンにも伝わってしまうので div にする
+    const row = document.createElement('div');
     row.className = 'control-row';
     const span = document.createElement('span');
     span.textContent = labelText;
