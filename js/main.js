@@ -77,6 +77,16 @@ window.addEventListener('drop', e => {
     importFiles([...(e.dataTransfer?.files || [])]);
 });
 
+// ---- ページを離れる前の確認 ----
+// レイヤや設定は保存していないので、リロードやブラウザバックで消えてしまう。
+// レイヤがあるときだけブラウザ標準の確認ダイアログを出す（文言はブラウザが決める）。
+
+window.addEventListener('beforeunload', e => {
+    if (store.getState().layers.length === 0) return;
+    e.preventDefault();
+    e.returnValue = ''; // 古いブラウザ向け
+});
+
 // ---- サイドバーの開閉（PC は折りたたみ、スマホは重ねて表示） ----
 
 document.getElementById('sidebarToggle')?.addEventListener('click', () => {
