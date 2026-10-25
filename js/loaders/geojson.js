@@ -1,5 +1,7 @@
 // GeoJSON ファイルの読み込み
 
+import { baseNameOf } from './util.js';
+
 /** @typedef {import('../types.js').GeoJSONFeatureCollection} GeoJSONFeatureCollection */
 /** @typedef {import('../types.js').GeoJSONFeature} GeoJSONFeature */
 
@@ -24,7 +26,7 @@ export const geojsonLoader = {
         if (!fc) {
             throw new Error(`「${file.name}」は GeoJSON 形式ではないようです`);
         }
-        return fc;
+        return [{ name: baseNameOf(file.name), data: fc }];
     },
 };
 

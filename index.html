@@ -14,7 +14,10 @@
   "imports": {
     "leaflet": "https://unpkg.com/leaflet@1.9.4/dist/leaflet-src.esm.js",
     "chroma-js": "https://cdn.jsdelivr.net/npm/chroma-js@2.4.2/+esm",
-    "sortablejs": "https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/+esm"
+    "sortablejs": "https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/+esm",
+    "shpjs": "https://cdn.jsdelivr.net/npm/shpjs@6.2.0/dist/shp.esm.min.js",
+    "fflate": "https://cdn.jsdelivr.net/npm/fflate@0.8.2/+esm",
+    "proj4": "https://cdn.jsdelivr.net/npm/proj4@2.22.0/+esm"
   }
 }
 </script>
@@ -32,7 +35,7 @@
     <div class="sidebar-actions">
       <button id="addFileBtn" class="btn-primary" type="button">＋ ファイルを追加</button>
       <input id="fileInput" type="file" multiple hidden>
-      <p class="hint">GeoJSONファイルを地図にドラッグ＆ドロップしても追加できます</p>
+      <p class="hint">GeoJSON・Shapefile（zip）・GeoPackageに対応。地図にドラッグ＆ドロップしても追加できます</p>
     </div>
     <div id="layerList"></div>
     <p id="emptyMessage" class="empty-message">まだレイヤがありません</p>

@@ -2,7 +2,7 @@
 
 import { createMapView } from './mapView.js';
 import { createSidebar } from './sidebar.js';
-import { loadFile, ACCEPT } from './loaders/index.js';
+import { planLoad, ACCEPT } from './loaders/index.js';
 import { notify } from './notify.js';
 import * as store from './store.js';
 
@@ -18,17 +18,20 @@ createSidebar({
 
 /**
  * ファイルを読み込んでレイヤとして追加する
- * @param {Iterable<File>} files
+ * @param {File[]} files
  */
 async function importFiles(files) {
-    for (const file of files) {
+    for (const task of planLoad(files)) {
         try {
-            const { name, data } = await loadFile(file);
-            const layer = store.addLayer(name, data);
-            mapView.zoomToLayer(layer.id);
+            const { layers, errors } = await task.run();
+            for (const { name, data } of layers) {
+                const layer = store.addLayer(name, data);
+                mapView.zoomToLayer(layer.id);
+            }
+            errors.forEach(message => notify(message, 'error'));
         } catch (err) {
             console.error(err);
-            notify(err instanceof Error ? err.message : String(err), 'error');
+            notify(err instanceof Error ? err.message : `「${task.label}」を読み込めませんでした`, 'error');
         }
     }
 }

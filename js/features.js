@@ -25,6 +25,8 @@ export function collectAttributes(features) {
 export function getValue(feature, attr) {
     const v = feature.properties ? feature.properties[attr] : undefined;
     if (v === null || v === undefined) return null;
+    if (typeof v === 'number' && Number.isNaN(v)) return null;
+    if (v instanceof Date && Number.isNaN(v.getTime())) return null;
     if (typeof v === 'string' && v.trim() === '') return null;
     return v;
 }
@@ -49,6 +51,8 @@ export function toNumber(v) {
  */
 export function formatValue(v) {
     if (v === null || v === undefined) return '';
+    if (typeof v === 'number' && Number.isNaN(v)) return '';
+    if (v instanceof Date) return Number.isNaN(v.getTime()) ? '' : v.toLocaleDateString('ja-JP');
     if (typeof v === 'object') return JSON.stringify(v);
     return String(v);
 }
