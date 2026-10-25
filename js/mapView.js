@@ -5,7 +5,7 @@
 import * as L from 'leaflet';
 import { BASEMAPS } from './basemaps.js';
 import { buildStyler } from './styling.js';
-import { formatValue } from './features.js';
+import { formatValue, getValue } from './features.js';
 import * as store from './store.js';
 
 /** @typedef {import('./types.js').AppState} AppState */
@@ -16,7 +16,14 @@ import * as store from './store.js';
  * @typedef {Object} LayerView
  * @property {L.GeoJSON} group
  * @property {LayerStyle|null} style 最後に適用したスタイル
+ * @property {LayerState} layer 最後に反映したレイヤの状態
+ * @property {L.LayerGroup} labels ラベル（L.Tooltip）を入れる
+ * @property {Map<L.Layer, L.LatLng>} anchors 地物ごとのラベル位置（計算結果の再利用）
+ * @property {string} labelKey 最後にラベルを描いたときの設定
  */
+
+// 画面内のラベルがこれより多いときは表示しない（文字だらけで読めず、動作も重くなるため）
+const MAX_LABELS = 300;
 
 /**
  * @param {HTMLElement} element
@@ -74,8 +81,69 @@ export function createMapView(element) {
                 l.bindPopup(() => buildPopup(feature.properties), { maxWidth: 360 });
             },
         });
-        return { group, style: null };
+        return { group, style: null, layer, labels: L.layerGroup().addTo(map), anchors: new Map(), labelKey: '' };
     }
+
+    /**
+     * 表示範囲内の地物にラベルを付け直す
+     * @param {LayerView} view
+     */
+    function refreshLabels(view) {
+        const { layer, labels } = view;
+        labels.clearLayers();
+        const attr = layer.style.label;
+        if (!attr || !layer.visible) return;
+
+        const bounds = map.getBounds().pad(0.1);
+        /** @type {{ pos: L.LatLng, text: string, point: boolean }[]} */
+        const items = [];
+        view.group.eachLayer(l => {
+            const value = getValue(/** @type {any} */ (l).feature, attr);
+            if (value === null) return;
+            const pos = anchorOf(view, l);
+            if (bounds.contains(pos)) {
+                items.push({ pos, text: formatValue(value), point: l instanceof L.CircleMarker });
+            }
+        });
+        if (items.length > MAX_LABELS) return;
+
+        for (const { pos, text, point } of items) {
+            const content = document.createElement('span');
+            content.textContent = text;
+            labels.addLayer(L.tooltip({
+                permanent: true,
+                interactive: false,
+                className: 'map-label',
+                direction: point ? 'right' : 'center',
+                offset: point ? [4, 0] : [0, 0],
+            }).setLatLng(pos).setContent(content));
+        }
+    }
+
+    /**
+     * ラベルを置く位置。点はその位置、線とポリゴンは中心
+     * @param {LayerView} view
+     * @param {L.Layer} l
+     */
+    function anchorOf(view, l) {
+        let pos = view.anchors.get(l);
+        if (!pos) {
+            if (l instanceof L.CircleMarker) {
+                pos = l.getLatLng();
+            } else {
+                const path = /** @type {L.Polyline} */ (l);
+                try {
+                    pos = path.getCenter();
+                } catch {
+                    pos = path.getBounds().getCenter();
+                }
+            }
+            view.anchors.set(l, pos);
+        }
+        return pos;
+    }
+
+    map.on('moveend', () => views.forEach(refreshLabels));
 
     /**
      * @param {AppState} state
@@ -89,6 +157,7 @@ export function createMapView(element) {
         for (const [id, view] of views) {
             if (!ids.has(id)) {
                 map.removeLayer(view.group);
+                map.removeLayer(view.labels);
                 views.delete(id);
             }
         }
@@ -108,6 +177,13 @@ export function createMapView(element) {
             const shown = map.hasLayer(view.group);
             if (layer.visible && !shown) map.addLayer(view.group);
             if (!layer.visible && shown) map.removeLayer(view.group);
+
+            view.layer = layer;
+            const labelKey = `${layer.visible}|${layer.style.label}`;
+            if (labelKey !== view.labelKey) {
+                refreshLabels(view);
+                view.labelKey = labelKey;
+            }
         }
 
         // 再表示したレイヤは一番上に描かれてしまうので、順序が変わったら下から積み直す

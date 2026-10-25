@@ -89,6 +89,7 @@ export function addLayer(name, data) {
             color: LAYER_COLORS[(id - 1) % LAYER_COLORS.length],
             palette: 'YlOrRd',
             categoryColors: {},
+            label: '',
         },
     };
     setState({ ...state, layers: [layer, ...state.layers] });

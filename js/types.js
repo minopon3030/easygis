@@ -7,6 +7,7 @@
  * @property {string} color 単色表示のときの色
  * @property {string} palette 数値で色分けするときのカラーパレット名（chroma.js / ColorBrewer）
  * @property {Object<string, Object<string, string>>} categoryColors 属性名 → 値 → 色。ユーザーが変更した色だけ入る
+ * @property {string} label 地物の上に表示する属性名。"" なら表示しない
  */
 
 /**

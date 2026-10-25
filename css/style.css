@@ -392,6 +392,27 @@ body.sidebar-collapsed #sidebar {
     overflow-y: auto;
 }
 
+/* ---- 地図上のラベル（Leaflet の tooltip を枠なしの文字にする） ---- */
+
+.leaflet-tooltip.map-label {
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: #222;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    /* 白い縁取りで背景地図の上でも読めるようにする */
+    text-shadow:
+        -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff,
+        0 0 3px #fff;
+}
+
+.leaflet-tooltip.map-label::before {
+    display: none;
+}
+
 /* ---- ドロップ表示・通知 ---- */
 
 #dropOverlay {

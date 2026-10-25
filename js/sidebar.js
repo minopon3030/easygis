@@ -22,6 +22,7 @@ import { formatNumber } from './features.js';
  * @property {HTMLElement} paletteRow
  * @property {HTMLSelectElement} paletteSelect
  * @property {HTMLElement} legendEl
+ * @property {HTMLSelectElement} labelSelect
  * @property {string} legendKey 凡例の構造（色以外）。変わったときだけ凡例を作り直す
  */
 
@@ -120,9 +121,15 @@ function createCard(layer, onZoom) {
 
     header.append(handle, title, zoomBtn, removeBtn);
 
-    // ---- 色分けの設定 ----
+    // ---- ラベルと色分けの設定（凡例はその下） ----
     const controls = document.createElement('div');
     controls.className = 'layer-controls';
+
+    const labelSelect = selectBox([
+        { value: '', label: '表示しない' },
+        ...layer.attributes.map(a => ({ value: a, label: a })),
+    ]);
+    labelSelect.addEventListener('change', () => store.setStyle(id, { label: labelSelect.value }));
 
     const attributeSelect = selectBox([
         { value: '', label: '色分けなし（単色）' },
@@ -143,7 +150,7 @@ function createCard(layer, onZoom) {
 
     const classifyRow = controlRow('値の扱い', classifySelect);
     const paletteRow = controlRow('配色', paletteSelect);
-    controls.append(controlRow('色分け', attributeSelect), classifyRow, paletteRow);
+    controls.append(controlRow('ラベル', labelSelect), controlRow('色分け', attributeSelect), classifyRow, paletteRow);
 
     const legendEl = document.createElement('div');
     legendEl.className = 'legend';
@@ -153,7 +160,7 @@ function createCard(layer, onZoom) {
     return {
         el, layer: null, visibleInput, attributeSelect,
         classifyRow, classifySelect, paletteRow, paletteSelect,
-        legendEl, legendKey: '',
+        legendEl, labelSelect, legendKey: '',
     };
 }
 
@@ -168,6 +175,7 @@ function updateCard(card, layer) {
     card.attributeSelect.value = style.attribute;
     card.classifySelect.value = style.classify === 'category' ? 'category' : 'auto';
     card.paletteSelect.value = style.palette;
+    card.labelSelect.value = style.label;
 
     const styler = buildStyler(layer);
     card.classifyRow.hidden = !styler.numericAvailable;
